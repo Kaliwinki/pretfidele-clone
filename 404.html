@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Redirection… | PrêtFidèle</title>
+<script>
+// Sur le site original, /redirector/<base64> est une page dynamique qui
+// décode l'adresse et redirige. GitHub Pages ne peut pas faire de route
+// dynamique : cette page 404 personnalisée joue ce rôle pour toutes les
+// adresses /redirector/... de la copie.
+(function () {
+  var path = window.location.pathname;
+  var m = path.match(/\/redirector\/([A-Za-z0-9+/=]+)/);
+  if (m) {
+    try {
+      var target = atob(m[1]);
+      if (target && target.charAt(0) === "/") {
+        window.location.replace(target + window.location.search + window.location.hash);
+        return;
+      }
+    } catch (e) { /* adresse illisible : on affiche la page 404 ci-dessous */ }
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("notfound").style.display = "block";
+  });
+})();
+</script>
+</head>
+<body style="font-family:sans-serif;text-align:center;padding:60px 20px;color:#333">
+<div id="notfound" style="display:none">
+<h1>Page introuvable</h1>
+<p>La page demandée n'existe pas sur cette copie.</p>
+<p><a href="/pretfidele-clone/fr/default/">Retour à l'accueil PrêtFidèle</a></p>
+</div>
+<noscript><p>Redirection impossible sans JavaScript. <a href="/pretfidele-clone/fr/default/">Retour à l'accueil</a></p></noscript>
+</body>
+</html>
